@@ -3,6 +3,8 @@
 
 def main():
     with open('input') as input:
+        print(part1(input))
+    with open('input') as input:
         print(part2(input))
 
 def part1(input):
@@ -32,19 +34,15 @@ def part1(input):
 
 
     bingo = False
-    bingoNum = 0
     bingoSum = 0
     for num in randNums:
         for board in boards:
             board = markNum(board, num)
             if checkBoard(board):
-                print(num, 'lol')
-                for row in board:
-                    for num in board:
-                        bingoSum += num[0] if not num[1] else 0
                 bingo = True
                 for row in board:
-                    print(row)
+                    for x in row:
+                        bingoSum += x[0] if x[1]==0 else 0
                 return bingoSum*num
 
 
@@ -108,16 +106,17 @@ def part2(input):
                 if len(boards) != 1:
                     boards.remove(board)
                 else:
-                    print(num)
+                    bingoNum = num
                     bingo = True
+                    break
         if bingo:
             break
 
     sum =0
     for row in boards[0]:
         for num in row:
-            sum += num[0] if num[1]==0 else 0
-    print(sum)
+            bingoSum += num[0] if num[1]==0 else 0
+    return bingoSum * bingoNum
 
 
 if __name__=='__main__':
