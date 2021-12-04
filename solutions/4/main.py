@@ -3,7 +3,7 @@
 
 def main():
     with open('input') as input:
-        print(part1(input))
+        print(part2(input))
 
 def part1(input):
     randNums = []
@@ -72,8 +72,53 @@ def checkBoard(board):
             return True
 
 def part2(input):
-    for lines in input:
-        pass
+    randNums = []
+    boards = []
+    boardNum = 0
+    boardData = {}
+    boardLength = None
+
+    for line in input:
+        if len(randNums) == 0:
+            for num in line.strip().split(','):
+                randNums.append(int(num))
+        else:
+            if len(boards) == 0 and len(line.strip()) == 0:
+                continue
+            if len(line.strip()) == 0:
+                boardNum += 1
+                continue
+            if boardLength is None:
+                boardLength = len([i for i in line.split()])
+
+            if boardNum == len(boards):
+                boards.append([])
+
+            boards[boardNum].append([[int(num), 0] for num in line.split()])
+
+
+    bingo = False
+    bingoNum = 0
+    bingoSum = 0
+    for num in randNums:
+        for i in range(len(boards)-1, -1, -1):
+            board = boards[i]
+            board = markNum(board, num)
+            if checkBoard(board):
+                if len(boards) != 1:
+                    boards.remove(board)
+                else:
+                    print(num)
+                    bingo = True
+        if bingo:
+            break
+
+    sum =0
+    for row in boards[0]:
+        for num in row:
+            sum += num[0] if num[1]==0 else 0
+    print(sum)
+
 
 if __name__=='__main__':
     main()
