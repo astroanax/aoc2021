@@ -116,6 +116,7 @@ def part2(input):
     for row in boards[0]:
         for num in row:
             bingoSum += num[0] if num[1]==0 else 0
+    print(bingoNum)
     return bingoSum * bingoNum
 
 
