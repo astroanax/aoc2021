@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
+from time import sleep
 def main():
     lines = []
     with open(sys.argv[1]) as input_lines:
@@ -20,9 +21,16 @@ def part1(lines):
         for i, row in enumerate(grid):
             for j, n in enumerate(row):
                 grid = increment(i, j, grid)
+        print(chr(27) + "[2J")
         for i, row in enumerate(grid):
             for j, n in enumerate(row):
+                if grid[i][j][0]==0:
+                    print('\033[1;36m' + str(grid[i][j][0]), end='\033[0m ')
+                else:
+                    print(grid[i][j][0], end=' ')
                 grid[i][j][1] = False
+            print()
+        sleep(0.10)
     return flashes
 
 def part2(lines):
