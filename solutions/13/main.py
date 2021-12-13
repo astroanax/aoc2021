@@ -119,55 +119,31 @@ def part2(lines):
     for fold in folds:
         if fold[-1] != -1:
             fold = fold[-1]
-            if fold < maxY/2:
-                for i, row in enumerate(graph):
-                    if i < fold+1 or i > 2*fold:
-                        continue
-                    else:
-                        for j, n in enumerate(row):
-                            if graph[i][j] == 1:
-                                graph[2*fold - i][j]=1
-                l = graph[2*fold+1:]
-                l.reverse()
-                graph=l+graph[:fold]
-            else:
-                for i, row in enumerate(graph):
-                    if i < fold+1:
-                        continue
-                    for j, n in enumerate(row):
-                        if graph[i][j] == 1:
-                            graph[2*fold - i][j]=1
-                graph=graph[:fold]
+            for i, row in enumerate(graph):
+                if i < fold+1:
+                    continue
+                for j, n in enumerate(row):
+                    if graph[i][j] == 1:
+                        graph[2*fold - i][j]=1
+            graph=graph[:fold]
         else:
             fold = fold[0]
-            if fold < maxX/2:
-                for i, row in enumerate(graph):
-                    for j, n in enumerate(row):
-                        if j < fold +1 or j>2*fold:
-                            continue
-                        else:
-                            if graph[i][j]==1:
-                                graph[i][2*fold-i] = 1
-                    l = graph[i][2*fold+1:]
-                    l.reverse()
-                    graph[i] = l+graph[i][:fold]
-            else:
-                for i, row in enumerate(graph):
-                    for j, n in enumerate(row):
-                        if j < fold +1:
-                            continue
-                        if graph[i][j] == 1:
-                            graph[i][2*fold-j] = 1
-                    graph[i] = graph[i][:fold]
+            for i, row in enumerate(graph):
+                for j, n in enumerate(row):
+                    if j < fold +1:
+                        continue
+                    if graph[i][j] == 1:
+                        graph[i][2*fold-j] = 1
+                graph[i] = graph[i][:fold]
             
     dots = 0
     for line in graph:
         dots += len([x for x in line if x == 1])
         for x in line:
             if x == 1:
-                print('x', end =' ')
+                print('#', end =' ')
             else:
-                print(end=' ')
+                print(' ', end =' ')
         print()
     return dots
 
