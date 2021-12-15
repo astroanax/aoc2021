@@ -3,6 +3,7 @@
 import sys
 from collections import defaultdict
 from math import inf as infinity
+import heapq
 def main():
     lines = []
     with open(sys.argv[1]) as input_lines:
@@ -35,29 +36,25 @@ def dijkstra(grid, source):
                 prev[(m, n)] = None
     #            queue.append((m, n))
     dist[source] = 0
-    queue.append(source)
+    heapq.heappush(queue, (0, source))
 
     while len(queue)!=0:
-        u = queue[0]
-        min_dist = dist[u]
-        for v in queue:
-            if dist[v]<min_dist:
-                min_dist = dist[v]
-                u = v
+        u = heapq.heappop(queue)
 
-        queue.remove(u)
+        x, y = u[1]
+        #if x == len(grid)-1 and y == len(grid[0])-1:
+        #    break
 
-        x, y = u
         for i, j in [(x+1, y),(x-1, y),(x, y+1),(x, y-1)]:
             if i < 0 or i > len(grid)-1 or j < 0 or j > len(grid[0])-1:
                 continue
             v = (i, j)
             #if not v in queue: continue
-            alt = dist[u] + grid[x][y]
+            alt = dist[u[1]] + grid[x][y]
             if alt < dist[v]:
-                queue.append(v)
                 dist[v] = alt
-                prev[v] = u
+                heapq.heappush(queue, (dist[v], v))
+                prev[v] = u[1]
     path = []
     u = (len(grid)-1,len(grid[0])-1)
     if prev[u] is not None or u == source:
