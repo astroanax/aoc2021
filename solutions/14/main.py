@@ -45,12 +45,19 @@ def part2(lines):
 
 
     for i in range(int(sys.argv[2])):
-        for p, c in list(polymer.items()):
-            if not p in rules:
+        old_polymer = polymer.copy()
+        for rule in rules:
+            if rule not in old_polymer:
                 continue
-            polymer[p[0]+rules[p]] += c
-            polymer[rules[p]+p[1]] += c
-            polymer[p] -= c
+            polymer[rule[0]+rules[rule]] += old_polymer[rule]
+            polymer[rules[rule]+rule[1]] += old_polymer[rule]
+            polymer[rule] -= old_polymer[rule]
+        #for p, c in list(polymer.items()):
+        #    if not p in rules:
+        #        continue
+        #    polymer[p[0]+rules[p]] += c
+        #    polymer[rules[p]+p[1]] += c
+        #    polymer[p] -= c
 
     counts = defaultdict(int)
     for j in polymer:
